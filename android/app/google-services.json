@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "609678391580",
+    "project_id": "flutter-firebase-project-bd961",
+    "storage_bucket": "flutter-firebase-project-bd961.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609678391580:android:b83705b29fde182ba1e2d9",
+        "android_client_info": {
+          "package_name": "com.example.travel_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMThASQbWCjQwdEKp4duHpt3dqxeY2lSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
