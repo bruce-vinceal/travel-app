@@ -3,6 +3,7 @@ import 'package:travel_app/CustomTextFormField.dart';
 import 'package:travel_app/PasswordField.dart';
 import 'package:travel_app/PrimaryButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:travel_app/screens/Home.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "register";
@@ -56,8 +57,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   PrimaryButton(
                     text: "Sign Up",
                     iconData: Icons.login,
-                    onPressed: (){signUp(emailController.value.text,
-                        passwordController.value.text);},
+                    onPressed: () async {
+                      try {
+                        await signUp(
+                          emailController.value.text,
+                          passwordController.value.text,
+                        );
+                        // Optionally, show a success message or navigate to a different screen
+                      } catch (e) {
+                        // Handle the error and show a relevant message to the user
+                        print("Sign-up failed: $e");
+                        // Optionally, display an error message to the user
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Sign-up failed: $e"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -86,16 +104,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //   Navigator.pushReplacementNamed(context, Home.routeName);
   // }
 
-  signUp(String email, String password) async {
+  Future<void> signUp(String email, String password) async {
     try {
       UserCredential credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      print("successful registration");
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
+      // If the user is created successfully, navigate to the home screen
+      Navigator.pushReplacementNamed(context, Home.routeName);
     } catch (e) {
       print(e);
+      // Handle the error, e.g., show an error message to the user
     }
   }
 }
