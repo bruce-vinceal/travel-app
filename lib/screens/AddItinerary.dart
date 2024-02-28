@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/CustomTextFormField.dart';
-import 'package:travel_app/PostTextField.dart';
 import 'package:travel_app/PrimaryButton.dart';
 
 class AddItinerary extends StatefulWidget {

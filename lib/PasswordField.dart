@@ -6,13 +6,15 @@ class PasswordField extends StatelessWidget {
   final bool obscureText;
   final VoidCallback onTap;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   const PasswordField(
       {super.key, required this.labelText,
         required this.hintText,
         required this.obscureText,
         required this.onTap,
-        required this.controller});
+        required this.controller,
+        this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class PasswordField extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           )
       ),
+      validator: validator,
     );
   }
 }

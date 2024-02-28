@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool obscureText = true;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: SingleChildScrollView(
             child: Form(
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,6 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     iconData: Icons.email,
                     textInputType: TextInputType.emailAddress,
                     controller: emailController,
+                    validator: (value) =>
+                    value?.isEmpty ?? true ? 'Please enter your email' : null,
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -54,6 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: obscureText,
                     onTap: setPasswordVisibility,
                     controller: passwordController,
+                    validator: (value) =>
+                    value?.isEmpty ?? true ? 'Please enter your password' : null,
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -61,8 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   PrimaryButton(
                     text: "Login",
                     iconData: Icons.login,
-                    onPressed: (){signIn(context, emailController.value.text,
-                        passwordController.value.text);},
+                    onPressed: () => signIn(),
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -71,14 +76,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Text("New to the app?"),
                       GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacementNamed(
-                                context, RegisterScreen.routeName);
-                          },
-                          child: const Text(
-                            "Sign up",
-                            style: TextStyle(color: Colors.blueAccent),
-                          ))
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                              context, RegisterScreen.routeName);
+                        },
+                        child: const Text(
+                          "Sign up",
+                          style: TextStyle(color: Colors.blueAccent),
+                        ),
+                      )
                     ],
                   )
                 ],
@@ -96,20 +102,24 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  Future<void> signIn(BuildContext context, String email, String password) async {
-    try {
-      UserCredential credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+  Future<void> signIn() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      try {
+        UserCredential credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+            email: emailController.value.text,
+            password: passwordController.value.text);
 
-      String uid = credential.user?.uid ?? "";
+        String uid = credential.user?.uid ?? "";
 
-      await storageService.saveData(StorageItem("uid", uid));
+        await storageService.saveData(StorageItem("uid", uid));
 
-      Navigator.pushReplacementNamed(context, Home.routeName);
-    } on FirebaseAuthException catch (e) {
-      print("Firebase Authentication Error: ${e.message}");
-    } catch (e) {
-      print("Error: $e");
+        Navigator.pushReplacementNamed(context, Home.routeName);
+      } on FirebaseAuthException catch (e) {
+        print("Firebase Authentication Error: ${e.message}");
+      } catch (e) {
+        print("Error: $e");
+      }
     }
   }
-
 }
