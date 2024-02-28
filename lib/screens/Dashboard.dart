@@ -5,7 +5,6 @@ import 'package:http/http.dart';
 import 'package:travel_app/models/Post.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_app/screens/Details.dart';
-import 'package:travel_app/screens/Settings.dart';
 
 class Dashboard extends StatefulWidget {
   static const String routeName = "dashboard";
@@ -29,9 +28,6 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dashboard"),
-        actions: [
-          IconButton(onPressed: settings, icon: const Icon(Icons.settings),)
-        ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
@@ -99,10 +95,6 @@ class _DashboardState extends State<Dashboard> {
       Details.routeName,
       arguments: selectedCountry,
     );
-  }
-
-  void settings() {
-    Navigator.pushNamed(context, Settings.routeName);
   }
 
 }

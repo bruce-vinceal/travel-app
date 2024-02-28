@@ -96,24 +96,20 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  // void login() {
-  //   Navigator.pushReplacementNamed(context, Home.routeName);
-  // }
-
-  signIn(context, String email, String password) async {
+  Future<void> signIn(BuildContext context, String email, String password) async {
     try {
-      UserCredential credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
 
-      var item = StorageItem("uid", credential.user?.uid ?? "");
+      String uid = credential.user?.uid ?? "";
 
-      await storageService.saveData(item);
+      await storageService.saveData(StorageItem("uid", uid));
 
       Navigator.pushReplacementNamed(context, Home.routeName);
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      print("Firebase Authentication Error: ${e.message}");
     } catch (e) {
-      print(e);
+      print("Error: $e");
     }
   }
+
 }

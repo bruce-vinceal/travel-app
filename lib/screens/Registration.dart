@@ -7,7 +7,7 @@ import 'package:travel_app/screens/Home.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "register";
-  const RegisterScreen({super.key});
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -26,67 +26,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
           alignment: Alignment.topCenter,
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: SingleChildScrollView(
-            child: Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  CustomTextFormField(
-                    labelText: "Email Address",
-                    hintText: "Enter a valid email",
-                    iconData: Icons.email,
-                    textInputType: TextInputType.emailAddress,
-                    controller: emailController,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  PasswordField(
-                    labelText: "Password",
-                    hintText: "Enter your password",
-                    obscureText: obscureText,
-                    onTap: setPasswordVisibility,
-                    controller: passwordController,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  PrimaryButton(
-                    text: "Sign Up",
-                    iconData: Icons.login,
-                    onPressed: () async {
-                      try {
-                        await signUp(
-                          emailController.value.text,
-                          passwordController.value.text,
-                        );
-                        // Optionally, show a success message or navigate to a different screen
-                      } catch (e) {
-                        // Handle the error and show a relevant message to the user
-                        print("Sign-up failed: $e");
-                        // Optionally, display an error message to the user
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Sign-up failed: $e"),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  // PrimaryButton(
-                  //   text: "Register",
-                  //   iconData: Icons.login,
-                  //   onPressed: (){},
-                  // ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20.0),
+                CustomTextFormField(
+                  labelText: "Email Address",
+                  hintText: "Enter a valid email",
+                  iconData: Icons.email,
+                  textInputType: TextInputType.emailAddress,
+                  controller: emailController,
+                ),
+                const SizedBox(height: 20.0),
+                PasswordField(
+                  labelText: "Password",
+                  hintText: "Enter your password",
+                  obscureText: obscureText,
+                  onTap: setPasswordVisibility,
+                  controller: passwordController,
+                ),
+                const SizedBox(height: 20.0),
+                PrimaryButton(
+                  text: "Sign Up",
+                  iconData: Icons.login,
+                  onPressed: () => signUp(),
+                ),
+                const SizedBox(height: 20.0),
+              ],
             ),
           ),
         ),
@@ -100,20 +67,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-  // void login() {
-  //   Navigator.pushReplacementNamed(context, Home.routeName);
-  // }
-
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp() async {
     try {
-      UserCredential credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.value.text,
+        password: passwordController.value.text,
+      );
 
-      // If the user is created successfully, navigate to the home screen
       Navigator.pushReplacementNamed(context, Home.routeName);
     } catch (e) {
-      print(e);
-      // Handle the error, e.g., show an error message to the user
+      print("Sign-up failed: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Sign-up failed: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 }
