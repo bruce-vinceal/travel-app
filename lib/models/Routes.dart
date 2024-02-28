@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/screens/AddItinerary.dart';
+import 'package:travel_app/screens/Itinerary.dart';
 import 'package:travel_app/screens/Login.dart';
 import 'package:travel_app/screens/Dashboard.dart';
 import 'package:travel_app/screens/Details.dart';
@@ -17,4 +19,6 @@ final Map<String, WidgetBuilder> routes = {
   Profile.routeName: (BuildContext context) => const Profile(),
   Home.routeName: (BuildContext context) => const Home(),
   RegisterScreen.routeName: (BuildContext context) => const RegisterScreen(),
+  AddItinerary.routeName: (BuildContext context) => const AddItinerary(),
+  Itinerary.routeName: (BuildContext context) => const Itinerary(),
 };

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/screens/Dashboard.dart';
+import 'package:travel_app/screens/Itinerary.dart';
 import 'package:travel_app/screens/Profile.dart';
-import 'package:travel_app/screens/Search.dart';
+// import 'package:travel_app/screens/Search.dart';
 
 class Home extends StatefulWidget {
   static const String routeName = "home";
@@ -17,7 +18,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _pages = [
     Dashboard(),
-    Search(),
+    Itinerary(),
     Profile(),
   ];
 
@@ -31,8 +32,8 @@ class _HomeState extends State<Home> {
             label: "Dashboard"
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Search"
+            icon: Icon(Icons.list),
+            label: "My Itinerary"
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

@@ -31,7 +31,9 @@ class PasswordField extends StatelessWidget {
           ),
           labelText: labelText,
           border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(30.0)))),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          )
+      ),
     );
   }
 }
